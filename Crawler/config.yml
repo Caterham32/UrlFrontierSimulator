@@ -1,4 +1,3 @@
 numberUrl: 100
 numberServer: 10
-intervall: 10
-numberOfFrontQueues: 10
+numberOfFrontQueues: 8
