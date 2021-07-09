@@ -102,12 +102,15 @@ def fillBackQueue(count, frontQueues, backQueues, serverlist, _hostsToBackQueue)
             # idear is to visit server with low latency with higher priority
             # => could be done better
             #
-            # heap contains (ServerLatency,ServerIdentifier)
-            heapWeigth = calculateHeapValue(newUrl.Server.Latency, newUrl.Server.LastVisit)
-            heapq.heappush(_heap, (heapWeigth, newUrl.Server.Identifier))
+            # heap contains (metric ,ServerIdentifier)
+            metric = calculateHeapValue(newUrl.Server.Latency, newUrl.Server.LastVisit)
+            heapq.heappush(_heap, (metric, newUrl.Server.Identifier))
+
 
 def calculateHeapValue(Latency, lastVisit):
     global _latencyMax, _latencyMin
+    # metric to calculate heap weigth:
+    # latency + penalty term, if server was alredy visited
     return Latency + lastVisit*(_latencyMax - _latencyMin)
 
 def removeItemAndUpdateTable(_hostsToBackQueue, itemKey):
